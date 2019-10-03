@@ -24,7 +24,7 @@ const getTrivaQuestion = (request, response) => {
 
 const addTriva = (request, response, body) => {
     const responseJSON = {
-        message: 'Question and answer are both required';
+        message: 'Question and answer are both required'
     };
 
     if(!body.question || !body.answer){
