@@ -7,29 +7,73 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
         <script type='text/babel'>
         const parseJSON = (xhr, content) => {
-            
+            const obj = JSON.parse(xhr.response);
+
+            if(obj.message){
+                const p = document.createElement('p');
+                p.textContent = `Message: ${obj.message}`;
+                content.appendChild(p);
+            }
+
+            if(obj.trivia){
+                const trivaQuestion = document.getElementById('triviaQuestion');
+                triviaQuestion.textContent = JSON.stringifiy(obj.trivia);
+            }
         };
 
         const handleResponse = (xhr, parseResponse) => {
+            
 
+            if(parseResponse){
+                parseJSON(xhr, content);
+            }
         };
 
-        const post = (e) => {
+        const post = (e, triviaForm) => {
+            const triviaAction = triviaForm.getAttribute('action');
+            const triviaMethod = triviaForm.getAttribute('method');
 
+            const questionField = triviaForm.querySelector('#questionField');
+            const questionField = triviaForm.querySelector('answerField');
+
+            const xhr = XMLHttpRequest();
+            xhr.open(triviaMethod, triviaAction);
+
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('Accept', 'application/json');
+            xhr.onload = () => handleResponse(xhr, true);
+
+            const formData = `question=${questionField.value}&answer=${answerField.value}`;
+            xhr.send(formData);
+
+            e.preventDefault();
+            return false;
         };
         
-        const requestUpdate = (e) => {
+        const requestUpdate = (e, triviaForm) => {
 
         };
 
         const init = () => {
+            const addTriviaForm = document.querySelector('#addQuestionForm');
 
+            const addTrivia = (e) => post(e, addTriviaForm);
+
+            addTriviaForm.addEventListener('submit', addTrivia)
         };
 
         window.onload = init;
         </script>
     </head>
     <body>
-        
+        <p id='triviaQuestion'></p>
+        <button id='newQuestion'>New Trivia Question</button>
+
+        <form id='addQuestionForm' action='/addTrivia' method='post'>
+            <label for='question'>Question:</label>
+            <input id='questionField' type='text' name='question' />
+            <label for='answer'>Answer:</label>
+            <input id='answerField' type='text' name='answer' />
+        </form>
     </body>
 </html>
