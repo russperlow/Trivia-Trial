@@ -1,8 +1,21 @@
-const trivaQuestions = { 0:
-{ question: 'How many stomachs does a giraffe have?',
-  answer: '4' } };
+const trivaQuestions = {
+0: { 
+    question: 'How many stomachs does a giraffe have?',
+    answer: '4' },
+1: { 
+    question: 'Who was the first person in space?',
+    answer: 'Yuri Gagarin' 
+},
+2: { 
+    question: 'Who was the first marvel superhero?',
+    answer: 'The Human Torch' 
+},
+3: { 
+    question: 'How many infinity stones are in the MCU?',
+    answer: 'Six' 
+}};
 
-const length = 0;
+let length = 4;
 
 const respondJSON = (request, response, status, object) => {
     response.writeHead(status, {'Content-Type': 'application/json'});
@@ -17,7 +30,8 @@ const respondJSONMeta = (request, response, status) => {
 
 const getTrivaQuestion = (request, response) => {
     if(request.method === 'GET'){
-        const randomNum = 0;// Math.round(Math.random() % length);
+        const randomNum = Math.floor(Math.random() * length); 
+        console.log(randomNum);
         const question = trivaQuestions[randomNum].question;
         const answer = trivaQuestions[randomNum].answer;
 
