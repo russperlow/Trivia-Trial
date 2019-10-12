@@ -12,7 +12,7 @@ const triviaQuestions = {
 },
 3: { 
     question: 'How many infinity stones are in the MCU?',
-    answer: 'Six' 
+    answer: '6' 
 }};
 
 let length = 4;

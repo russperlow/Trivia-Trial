@@ -14,8 +14,9 @@
                 const trivaQuestion = document.getElementById('triviaQuestion');
                 triviaQuestion.textContent = JSON.stringify(obj.question);
                 const triviaAnswer = document.getElementById('triviaAnswer');
-                triviaAnswer.textContent = JSON.stringify(obj.answer);
+                triviaAnswer.textContent = obj.answer;
                 triviaAnswer.style.display = 'none';
+                startTimer();
             }
         };
 
@@ -89,6 +90,45 @@
             return false;
         };
 
+        let timerFunc, time = 10, userScore = 0;
+
+        const startTimer = () => {
+            let timer = document.getElementById('timer');
+            timer.textContent = 10;
+
+            timerFunc = setInterval(() => {
+                if(time <= 0){
+                    stopTimer();
+                }
+
+                timer.textContent = `Time Remaining: ${time--}`;
+            }, 1000);
+        };
+
+        const stopTimer = () => {
+            clearInterval(timerFunc);
+        }
+
+        const checkUserAnswer = (e) => {
+            let userAnswer = document.getElementById('userGuessText').value;
+            let answer = document.getElementById('triviaAnswer').textContent;
+
+            console.log(userAnswer);
+            console.log(answer);
+
+            if(userAnswer == answer){
+                document.getElementById('userScore').textContent = `Score: ${++userScore}`;
+                document.getElementById('userGuessResult').textContent = 'Correct!';
+            }else{
+                document.getElementById('userGuessResult').textContent = 'Incorrect! The right answer was: ';
+                let answerP = document.getElementById('triviaAnswer');
+                answerP.style.display = 'block';
+            }
+
+            e.preventDefault();
+            return false;
+        }
+
         const init = () => {
             const addTriviaForm = document.querySelector('#addQuestionForm');
             const getTriviaForm = document.querySelector('#getQuestionForm');
@@ -98,27 +138,68 @@
 
             addTriviaForm.addEventListener('submit', addTrivia)
             getTriviaForm.addEventListener('submit', getTrivia);
+
+            document.getElementById('addQuestions').addEventListener('click', function(){
+                document.getElementById('initText').style.display = 'none';
+                document.getElementById('addQuestions').style.display = 'none';
+                document.getElementById('addQuestionsDiv').style.display = 'block'; 
+            });
+
+            document.getElementById('beginPlaying').addEventListener('click', function(){
+                document.getElementById('initText').style.display = 'none';
+                document.getElementById('addQuestions').style.display = 'none';
+                document.getElementById('beginPlaying').style.display = 'none';
+                document.getElementById('playDiv').style.display = 'block'; 
+            });
+
+            const userAnswer = (e) => checkUserAnswer(e)
+            document.getElementById('userGuessForm').addEventListener('submit', userAnswer);
         };
 
         window.onload = init;
         </script>
     </head>
     <body>
+        <h1>Welcome to Trivia Trial!</h1>
 
-        <p id='triviaQuestion'></p>
-        <p id='triviaAnswer'></p>
-        <form id='getQuestionForm' action='getTrivia' method='get'>
-            <input type='submit' value='New Question'/>
-        </form>
-        <button id='showAnswer' onclick='document.getElementById("triviaAnswer").style.display ="block";'>Show Answer</button>
+        <h3 id='initText'>Would you like to add questions or begin playing?</h3>
+        
+        <div id='playDiv'>
+            <h3>When you are ready, hit the New Question button. You will have 10 seconds from each new question to guess the answer!</h3>
+            <h3>If you are right, you score a point!</h3>
+            <h4 id='userScore'></h4>
 
-        <form id='addQuestionForm' action='/addTrivia' method='post'>
-            <label for='question'>Question:</label>
-            <input id='questionField' type='text' name='question' />
-            <label for='answer'>Answer:</label>
-            <input id='answerField' type='text' name='answer' />
-            <input type='submit' value='Submit Question'/>
-        </form>
+            <h4 id='timer'></h4>
+
+            <p id='triviaQuestion'></p>
+            <p id='userGuessResult'></p>
+            <p id='triviaAnswer'></p>
+
+            <form id='getQuestionForm' action='getTrivia' method='get'>
+                <input type='submit' value='New Question'/>
+            </form>
+
+            <form id='userGuessForm'>
+                <input type='text' id='userGuessText' />
+                <input type='submit' value='Submit Guess'/>
+            </form>
+
+            <!-- <button id='showAnswer' onclick='document.getElementById("triviaAnswer").style.display ="block";'>Show Answer</button> -->
+        </div>
+
+        <div id='addQuestionsDiv'>
+            <h3>Add as many questions as you would like! </h3>
+            <form id='addQuestionForm' action='/addTrivia' method='post'>
+                <label for='question'>Question:</label>
+                <input id='questionField' type='text' name='question' />
+                <label for='answer'>Answer:</label>
+                <input id='answerField' type='text' name='answer' />
+                <input type='submit' value='Submit Question'/>
+            </form>
+        </div>
+
+        <button id='addQuestions'>Add Questions</button>
+        <button id='beginPlaying'>Begin Playing</button>
 
         <p id='content'></p>
     </body>
