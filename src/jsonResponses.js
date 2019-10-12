@@ -1,4 +1,8 @@
-const trivaQuestions = {};
+const trivaQuestions = { 0:
+{ question: 'How many stomachs does a giraffe have?',
+  answer: '4' } };
+
+const length = 0;
 
 const respondJSON = (request, response, status, object) => {
     response.writeHead(status, {'Content-Type': 'application/json'});
@@ -13,9 +17,15 @@ const respondJSONMeta = (request, response, status) => {
 
 const getTrivaQuestion = (request, response) => {
     if(request.method === 'GET'){
+        const randomNum = 0;// Math.round(Math.random() % length);
+        const question = trivaQuestions[randomNum].question;
+        const answer = trivaQuestions[randomNum].answer;
+
         const responseJSON = {
-            trivaQuestions,
+            question,
+            answer,
         }
+        console.log(responseJSON);
         respondJSON(request, response, 200, responseJSON);
     }else{
         respondJSON(request, response, 200);
@@ -35,14 +45,17 @@ const addTriva = (request, response, body) => {
 
     let responseCode = 201;
 
-    if(trivaQuestions[body.question]){
-        responseCode = 204;
-    }else{
-        trivaQuestions[body.question] = {};
-    }
+    // if(trivaQuestions[body.question]){
+    //     responseCode = 204;
+    // }else{
+    //     trivaQuestions[body.question] = {};
+    // }
 
-    trivaQuestions[body.question].question = body.question;
-    trivaQuestions[body.question].answer = body.answer;
+    trivaQuestions[length].question = body.question;
+    trivaQuestions[length].answer = body.answer;
+    length++;
+
+    console.log(trivaQuestions);
 
     if(responseCode === 201){
         responseJSON.message = 'Trivia Question Submission Success!';

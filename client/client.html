@@ -8,22 +8,21 @@
         <script type='text/babel'>
         const parseJSON = (xhr, content) => {
             const obj = JSON.parse(xhr.response);
+            console.log(obj);
 
-            if(obj.message){
-                const p = document.createElement('p');
-                p.textContent = `Message: ${obj.message}`;
-                content.appendChild(p);
-            }
-
-            if(obj.trivia){
+            if(obj.question && obj.answer){
                 const trivaQuestion = document.getElementById('triviaQuestion');
-                triviaQuestion.textContent = JSON.stringifiy(obj.trivia);
+                triviaQuestion.textContent = JSON.stringify(obj.question);
+                const triviaAnswer = document.getElementById('triviaAnswer');
+                triviaAnswer.textContent = JSON.stringify(obj.answer);
+                triviaAnswer.style.display = 'none';
             }
         };
 
         const handleResponse = (xhr, parseResponse) => {
-            
-
+            const content = document.querySelector('#content');
+            console.log('Parse Response: ');
+            console.log(xhr);
             if(parseResponse){
                 parseJSON(xhr, content);
             }
@@ -34,7 +33,7 @@
             const triviaMethod = triviaForm.getAttribute('method');
 
             const questionField = triviaForm.querySelector('#questionField');
-            const questionField = triviaForm.querySelector('answerField');
+            const answerField = triviaForm.querySelector('#answerField');
 
             const xhr = XMLHttpRequest();
             xhr.open(triviaMethod, triviaAction);
@@ -47,19 +46,32 @@
             xhr.send(formData);
 
             e.preventDefault();
-            return false;
+            return false;  
         };
         
         const requestUpdate = (e, triviaForm) => {
+            const action = triviaForm.getAttribute('action');
+            const method = triviaForm.getAttribute('method');
+           
+            const xhr = new XMLHttpRequest();
 
+            xhr.open(method, action);
+            xhr.onload = () => handleResponse(xhr, true);
+            xhr.send();
+
+            e.preventDefault();
+            return false;
         };
 
         const init = () => {
             const addTriviaForm = document.querySelector('#addQuestionForm');
+            const getTriviaForm = document.querySelector('#getQuestionForm');
 
             const addTrivia = (e) => post(e, addTriviaForm);
+            const getTrivia = (e) => requestUpdate(e, getTriviaForm);
 
             addTriviaForm.addEventListener('submit', addTrivia)
+            getTriviaForm.addEventListener('submit', getTrivia);
         };
 
         window.onload = init;
@@ -67,13 +79,20 @@
     </head>
     <body>
         <p id='triviaQuestion'></p>
-        <button id='newQuestion'>New Trivia Question</button>
+        <p id='triviaAnswer'>Answer</p>
+        <form id='getQuestionForm' action='getTrivia' method='get'>
+            <input type='submit' value='New Question'/>
+        </form>
+        <button id='showAnswer' onclick='document.getElementById("triviaAnswer").style.display ="block";'>Show Answer</button>
 
         <form id='addQuestionForm' action='/addTrivia' method='post'>
             <label for='question'>Question:</label>
             <input id='questionField' type='text' name='question' />
             <label for='answer'>Answer:</label>
             <input id='answerField' type='text' name='answer' />
+            <input type='submit' value='Submit Question'/>
         </form>
+
+        <p id='content'></p>
     </body>
 </html>
