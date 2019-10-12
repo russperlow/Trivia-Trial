@@ -35,7 +35,7 @@
             const questionField = triviaForm.querySelector('#questionField');
             const answerField = triviaForm.querySelector('#answerField');
 
-            const xhr = XMLHttpRequest();
+            const xhr = new XMLHttpRequest();
             xhr.open(triviaMethod, triviaAction);
 
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
