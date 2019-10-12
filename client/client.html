@@ -21,8 +21,26 @@
 
         const handleResponse = (xhr, parseResponse) => {
             const content = document.querySelector('#content');
-            console.log('Parse Response: ');
             console.log(xhr);
+            switch(xhr.status){
+                case 200:
+                    break;
+                case 201:
+                    document.getElementById('content').textContent = `Trivia Question Submission Success`;
+                    break;
+                case 204:
+                    break;
+                case 400:
+                    document.getElementById('content').textContent = `Error ${xhr.status} ${xhr.statusText}`;
+                    break;
+                case 404:
+                    document.getElementById('content').textContent = `Error ${xhr.status} ${xhr.statusText}`;
+                    break;
+                default:
+                    break;
+            }
+
+
             if(parseResponse){
                 parseJSON(xhr, content);
             }
@@ -78,8 +96,9 @@
         </script>
     </head>
     <body>
+
         <p id='triviaQuestion'></p>
-        <p id='triviaAnswer'>Answer</p>
+        <p id='triviaAnswer'></p>
         <form id='getQuestionForm' action='getTrivia' method='get'>
             <input type='submit' value='New Question'/>
         </form>

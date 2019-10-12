@@ -58,12 +58,6 @@ const addTriva = (request, response, body) => {
     }
 
     let responseCode = 201;
-
-    // if(triviaQuestions[body.question]){
-    //     responseCode = 204;
-    // }else{
-    //     triviaQuestions[body.question] = {};
-    // }
     
     triviaQuestions[length] = {};
     triviaQuestions[length].question = body.question;
@@ -90,7 +84,7 @@ const notReal = (request, response) => {
         respondJSON(request, response, 404, responseJSON);
 
     }else{
-        respondJSONMeta(request,response, 404);
+        respondJSONMeta(request, response, 404);
     }
 };
 
