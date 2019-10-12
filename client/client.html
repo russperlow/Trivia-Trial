@@ -40,11 +40,19 @@
                     break;
             }
 
+            setTimeout(() => {
+                hideContent();
+            }, 2500);
+
 
             if(parseResponse){
                 parseJSON(xhr, content);
             }
         };
+
+        const hideContent = () => {
+            document.getElementById('content').textContent = '';
+        }
 
         const post = (e, triviaForm) => {
             const triviaAction = triviaForm.getAttribute('action');
