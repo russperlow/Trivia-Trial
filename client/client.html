@@ -122,6 +122,7 @@
         // Starts the count down timer for each question
         const startTimer = () => {
             document.getElementById('timer').classList.toggle('blinking');
+            document.getElementById('getQuestionForm').style.display = 'none';
 
             let timer = document.getElementById('timer');
             time = 10;
@@ -142,6 +143,7 @@
         const stopTimer = () => {
             clearInterval(timerFunc);
             document.getElementById('timer').classList.toggle('blinking');
+            document.getElementById('getQuestionForm').style.display = 'block';
         }
 
         const checkUserAnswer = (e) => {
