@@ -1,10 +1,11 @@
 html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background-color:#735290;
-  }
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color:#735290;
+  text-align: center;
+}
 h1{
   color: #76E7CD;
   font-size: 48px;
@@ -12,6 +13,57 @@ h1{
 h3{
   font-size: 36px;
 }
+
+button, .btn{
+  background-color: #735290;
+  border: 2px solid #76E7CD;
+  color: #76E7CD;
+  font-size: 24px;
+  padding: 2px;
+}
+
+button:hover, .btn:hover{
+  background-color: #76E7CD;
+  color: #735290;
+}
+
 #playDiv, #addQuestionsDiv{
   display: none;
+}
+
+#newQuestionBtn{
+  font-size: 36px;
+}
+
+#userGuessForm{
+  margin-top: 2%;
+}
+
+#userGuessText{
+  font-size: 24px;
+}
+
+#triviaQuestion, #triviaAnswer{
+  font-size: 36px;
+  font-weight: bold;
+}
+
+#timer{
+  font-size: 48px;
+  font-weight: bold;
+}
+
+#userScore, #userGuessResult{
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.blinking{
+  animation: blinkingText 1s infinite;
+}
+
+@keyframes blinkingText{
+  0% { color: #F00; }
+  50% { color: black; }
+  100% { color: red; }
 }
