@@ -1,19 +1,14 @@
 const triviaQuestions = {
-0: { 
-    question: 'How many stomachs does a giraffe have?',
-    answer: '4' },
-1: { 
-    question: 'Who was the first person in space?',
-    answer: 'Yuri Gagarin' 
-},
-2: { 
-    question: 'Who was the first marvel superhero?',
-    answer: 'The Human Torch' 
-},
-3: { 
-    question: 'How many infinity stones are in the MCU?',
-    answer: '6' 
-}};
+0: { question: 'How many stomachs does a giraffe have?', answer: 'Four' },
+1: { question: 'Who was the first person in space?', answer: 'Yuri Gagarin' },
+2: { question: 'Who was the first marvel superhero?', answer: 'The Human Torch' },
+3: { question: 'How many infinity stones are in the MCU?', answer: 'Six' },
+4: { question: 'Who created JavaScript?', answer: 'Netscape' },
+5: { question: 'Which game series features cities called Vice City, Liberty City and San Andreas?', answer: 'Grand Theft Auto' },
+6: { question: 'Mario first appeared in which classic video game?', answer: 'Donkey Kong' },
+7: { question: 'Which is the only video game in which Mario appears as the villain?', answer: 'Donkey Kong Jr' },
+8: { question: ' Which is the only American Football team to go a whole season undefeated, including the Super Bowl?', answer: 'Miami Dolphins' },
+9: { question: 'How many NBA championships did Michael Jordan win with the Chicago Bulls?', answer: 'Six' }};
 
 let length = 4;
 
