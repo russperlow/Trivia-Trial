@@ -6,18 +6,29 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
         <script type='text/babel'>
-        const parseJSON = (xhr, content) => {
-            const obj = JSON.parse(xhr.response);
-            console.log(obj);
 
+        // Parses the JSON on a GET request
+        const parseJSON = (xhr, content) => {
+
+            const obj = JSON.parse(xhr.response);
+
+            // If we have a question AND an answer its a valid trivia question
             if(obj.question && obj.answer){
+
+                // Get and store in HTML elements the Question & ANswer
                 const trivaQuestion = document.getElementById('triviaQuestion');
                 triviaQuestion.textContent = obj.question;
                 const triviaAnswer = document.getElementById('triviaAnswer');
                 triviaAnswer.textContent = obj.answer;
+
+                // Hide the answer
                 triviaAnswer.style.display = 'none';
+
+                // Reset the guess text to nothing and redisplay it 
                 document.getElementById('userGuessText').value = '';
                 document.getElementById('userGuessForm').style.display = 'block';
+                
+                // Begin the countdown for the user guess period
                 startTimer();
             }
         };
@@ -25,6 +36,8 @@
         const handleResponse = (xhr, parseResponse) => {
             const content = document.querySelector('#content');
             console.log(xhr);
+
+            // Switch for status codes
             switch(xhr.status){
                 case 200:
                     break;
@@ -43,6 +56,7 @@
                     break;
             }
 
+            // Hide the content element after 2.5s so we don't leave error or success messages up too long
             setTimeout(() => {
                 hideContent();
             }, 2500);
@@ -53,10 +67,12 @@
             }
         };
 
+        // Hides the content element when an error or sucess method has been posted
         const hideContent = () => {
             document.getElementById('content').textContent = '';
         }
 
+        // POST request for submitting new trivia question
         const post = (e, triviaForm) => {
             const triviaAction = triviaForm.getAttribute('action');
             const triviaMethod = triviaForm.getAttribute('method');
@@ -78,6 +94,7 @@
             return false;  
         };
         
+        // GET request for retreiving a new trivia question
         const requestUpdate = (e, triviaForm) => {
             const action = triviaForm.getAttribute('action');
             const method = triviaForm.getAttribute('method');
@@ -92,6 +109,7 @@
             return false;
         };
 
+        // Display the correct answer for the user on incorrect answer or time out
         const showAnswer = () => {
             let answerP = document.getElementById('triviaAnswer');
             let answerVal = answerP.textContent;
@@ -101,12 +119,14 @@
 
         let timerFunc, time = 10, userScore = 0;
 
+        // Starts the count down timer for each question
         const startTimer = () => {
             document.getElementById('timer').classList.toggle('blinking');
 
             let timer = document.getElementById('timer');
             time = 10;
 
+            // Save the setInterval function so we may stop it before going to negative numbers
             timerFunc = setInterval(() => {
                 if(time <= 0){
                     stopTimer();
@@ -118,6 +138,7 @@
             }, 1000);
         };
 
+        // Stops the countdown timer on submission or time hit 0
         const stopTimer = () => {
             clearInterval(timerFunc);
             document.getElementById('timer').classList.toggle('blinking');
@@ -127,13 +148,14 @@
 
             stopTimer();
 
+            // Get the actual answer & the users answer
             let userAnswer = document.getElementById('userGuessText').value;
             let answer = document.getElementById('triviaAnswer').textContent;
 
-            console.log(userAnswer);
-            console.log(answer);
+            // Will display correct or incorrect
             let guessResult = document.getElementById('userGuessResult');
 
+            // Check the users answer and display the appropriate text, reward a point if necessary
             if(userAnswer == answer){
                 document.getElementById('userScore').textContent = `Score: ${++userScore}`;
                 guessResult.textContent = 'Correct!';
@@ -150,6 +172,8 @@
         }
 
         const init = () => {
+            
+            // Form and methods for get and post request for trivia
             const addTriviaForm = document.querySelector('#addQuestionForm');
             const getTriviaForm = document.querySelector('#getQuestionForm');
 
@@ -159,12 +183,14 @@
             addTriviaForm.addEventListener('submit', addTrivia)
             getTriviaForm.addEventListener('submit', getTrivia);
 
+            // Add questions where we hide the init texts and show the form for adding new trivia
             document.getElementById('addQuestions').addEventListener('click', function(){
                 document.getElementById('initText').style.display = 'none';
                 document.getElementById('addQuestions').style.display = 'none';
                 document.getElementById('addQuestionsDiv').style.display = 'block'; 
             });
 
+            // Class for begin playing button where we hide all the add trivia and initialize elements
             document.getElementById('beginPlaying').addEventListener('click', function(){
                 document.getElementById('initText').style.display = 'none';
                 document.getElementById('addQuestionsDiv').style.display = 'none';
