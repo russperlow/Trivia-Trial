@@ -26,7 +26,7 @@ const respondJSONMeta = (request, response, status) => {
 const getTrivaQuestion = (request, response) => {
     if(request.method === 'GET'){
         const randomNum = Math.floor(Math.random() * length); 
-        console.log(randomNum);
+        //console.log(randomNum);
         const question = triviaQuestions[randomNum].question;
         const answer = triviaQuestions[randomNum].answer;
 
@@ -34,7 +34,7 @@ const getTrivaQuestion = (request, response) => {
             question,
             answer,
         }
-        console.log(responseJSON);
+        //console.log(responseJSON);
         respondJSON(request, response, 200, responseJSON);
     }else{
         respondJSON(request, response, 200);
@@ -47,7 +47,7 @@ const addTriva = (request, response, body) => {
     };
 
     if(!body.question || !body.answer){
-        console.log('missing params');
+        //console.log('missing params');
         responseJSON.id = 'missingParams';
         return respondJSONMeta(request, response, 400, responseJSON);
     }
@@ -59,7 +59,7 @@ const addTriva = (request, response, body) => {
     triviaQuestions[length].answer = body.answer;
     length++;
 
-    console.log(triviaQuestions);
+    //console.log(triviaQuestions);
 
     if(responseCode === 201){
         responseJSON.message = 'Trivia Question Submission Success!';

@@ -10,7 +10,7 @@ const handlePost = (request, response, parsedUrl) => {
         const body = [];
 
         request.on('error', (err) => {
-            console.log(err);
+            //console.log(err);
             response.statusCode = 400;
             response.end();
         });
@@ -25,8 +25,8 @@ const handlePost = (request, response, parsedUrl) => {
             jsonHandler.addTriva(request, response, bodyParams);
         });
     }else{
-        console.log('else on post');
-        console.log(parsedUrl);
+        //console.log('else on post');
+        //console.log(parsedUrl);
     }
 };
 
@@ -64,4 +64,4 @@ const onRequest = (request, response) => {
 }
 
 http.createServer(onRequest).listen(port);
-console.log(`Listening on 127.0.0.1: ${port}`);
+//console.log(`Listening on 127.0.0.1: ${port}`);
