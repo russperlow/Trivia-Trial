@@ -11,6 +11,7 @@ const handlePost = (request, response, parsedUrl) => {
 
         request.on('error', (err) => {
             //console.log(err);
+            console.dir(err);
             response.statusCode = 400;
             response.end();
         });
