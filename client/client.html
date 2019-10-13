@@ -156,7 +156,7 @@
             let guessResult = document.getElementById('userGuessResult');
 
             // Check the users answer and display the appropriate text, reward a point if necessary
-            if(userAnswer == answer){
+            if(userAnswer === answer){
                 document.getElementById('userScore').textContent = `Score: ${++userScore}`;
                 guessResult.textContent = 'Correct!';
                 guessResult.style.color = 'Green';
